@@ -2,10 +2,14 @@ const express = require('express')
 const app  = express()
 const mongoose = require('mongoose'); 
 const cron = require("node-cron");
+const bodyParser = require('body-parser');
+
+
 const who_data = require('./Data-refresh/who-summary')
 const stats = require('./Data-refresh/statistics')
 const who_routes = require('./Routes/getwho')
-const stats_routs = require('./Routes/getstats')
+const stats_routes = require('./Routes/getstats')
+const datacollect_routes = require('./Routes/data_collect')
 
 mongoose.connect('mongodb://localhost/covid19app',{ 
     useNewUrlParser: true, 
@@ -13,14 +17,20 @@ mongoose.connect('mongodb://localhost/covid19app',{
     useUnifiedTopology: true, 
     useFindAndModify: false
 });
+
 mongoose.Promise = global.Promise
 
+
+
+app.use(bodyParser.urlencoded({ extended: false }))
+//app.use(bodyParser.json())
 app.use(who_routes);
-app.use(stats_routs);
+app.use(stats_routes);
+app.use(datacollect_routes);
 
 
-// stats.UpdateStatics()
-// who_data.UpdateSummary()
+stats.UpdateStatics()
+who_data.UpdateSummary()
 
 // cron.schedule("* * * * *", () => {
 //     console.log(`one minute passed, data downloaded`);
