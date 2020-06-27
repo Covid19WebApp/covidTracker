@@ -13,6 +13,7 @@ router.post('/userdetails', function(req,res,next){
 
      }).catch(function(err,req,res)
      {
+         // exception handling
          console.log("Error")
         res.status(400).json({status : "error"})
      })
