@@ -25,9 +25,12 @@ mongoose.Promise = global.Promise
 
 app.use(bodyParser.urlencoded({ extended: false }))
 //app.use(bodyParser.json())
-app.use(who_routes)
-app.use(stats_routes)
-app.use(datacollect_routes)
+app.use(who_routes);
+app.use(stats_routes);
+app.use(datacollect_routes);
+app.use(function(err, req, res, next){
+    res.status(422).send({error: err.message});
+});
 app.use(signup_routes)
 
 
