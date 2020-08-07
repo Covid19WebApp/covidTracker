@@ -2,15 +2,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const DetailsSchema = new Schema({
-
-    Lat: {
-      type: String,
-      required: [true, "Lat is required"]
+    
+    "Postcode": {
+      type:Number,
+      required: true
     },
-    //"Lat": String,
-    "Lng": String,
     "Date": Date,
-    "Staus": Number
+    "Rank": Number   //status
   });
 
 const Details = mongoose.model('Details',DetailsSchema);

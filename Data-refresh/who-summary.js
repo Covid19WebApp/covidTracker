@@ -9,15 +9,18 @@ const UpdateSummary = function(){
         if (who_res.error) throw new Error(who_res.error);
         summarydata = who_res.body.Global
         summarydata["Date"] = moment().format();   
-
+        
         Summary.deleteMany({},function(res){
             console.log("Previous Summary Deleted")
+
+            Summary.create(summarydata).then(function(res){
+                console.log("New Summary Inserted")
+                console.log("xxxxxxxxxxxxxxxxxxxxxxxxxx")       
+             });
+           
         });
 
-        Summary.create(summarydata).then(function(res){
-            console.log("New Summary Inserted")
-    
-         });
+       
 
 
         // Summary.findByIdAndUpdate(

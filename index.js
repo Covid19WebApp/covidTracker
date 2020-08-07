@@ -9,7 +9,8 @@ const who_data = require('./Data-refresh/who-summary')
 const stats = require('./Data-refresh/statistics')
 const who_routes = require('./Routes/getwho')
 const stats_routes = require('./Routes/getstats')
-const datacollect_routes = require('./Routes/data_collect')
+const datacollect_routes = require('./Routes/form-fill')
+const signup_routes = require('./User-functionality/sign-up')
 
 mongoose.connect('mongodb://localhost/covid19app',{ 
     useNewUrlParser: true, 
@@ -24,13 +25,14 @@ mongoose.Promise = global.Promise
 
 app.use(bodyParser.urlencoded({ extended: false }))
 //app.use(bodyParser.json())
-app.use(who_routes);
-app.use(stats_routes);
-app.use(datacollect_routes);
+app.use(who_routes)
+app.use(stats_routes)
+app.use(datacollect_routes)
+app.use(signup_routes)
 
 
 stats.UpdateStatics()
-who_data.UpdateSummary()
+//who_data.UpdateSummary()
 
 // cron.schedule("* * * * *", () => {
 //     console.log(`one minute passed, data downloaded`);
