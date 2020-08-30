@@ -1,9 +1,14 @@
 const express  = require('express');
 const router = express.Router();
 const Details = require("../Models/details-model")
+const jwt = require('jsonwebtoken')
+router.use(express.json())
+require('dotenv').config()
 
 
-router.post('/userdetails', function(req,res){
+
+
+router.post('/userdetails', /*authenticateToken*/ function(req,res){
     
     // LOGIC for answers is implemented @ front-end
 
@@ -24,9 +29,30 @@ router.post('/userdetails', function(req,res){
     } 
     console.log("Record inserted Successfully"); 
     res.status(200).send({status :"true"})      
-}); 
+});   
       
 
 });
+
+function authenticateToken(req,res,next){
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+  console.log(token)
+  if (token == null) return res.sendStatus(401)
+
+  jwt.verify(token,process.env.ACCESS_TOKEN_SECRET, (err,user)=>{
+
+    if(err) {
+      console.log("xxx")
+      return res.sendStatus(403)
+    } 
+    req.user = user
+    console.log(user+"hereeeeee")
+    next()
+
+
+  })
+
+}
         
 module.exports = router;

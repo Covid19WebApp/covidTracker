@@ -11,6 +11,7 @@ const who_routes = require('./Routes/getwho')
 const stats_routes = require('./Routes/getstats')
 const datacollect_routes = require('./Routes/form-fill')
 const signup_routes = require('./User-functionality/sign-up')
+const login_routes = require('./User-functionality/login')
 
 mongoose.connect('mongodb://localhost/covid19app',{ 
     useNewUrlParser: true, 
@@ -32,6 +33,7 @@ app.use(function(err, req, res, next){
     res.status(422).send({error: err.message});
 });
 app.use(signup_routes)
+app.use(login_routes)
 
 
 stats.UpdateStatics()
